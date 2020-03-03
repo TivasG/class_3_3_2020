@@ -1,0 +1,26 @@
+---
+title: "class_enrollment"
+author: "Tivas Gupta"
+date: "3/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+```
+
+```{r}
+
+#download files from online
+?download.file
+
+enrollment_spring2020 <- download.file("https://registrar.fas.harvard.edu/files/fas-registrar/files/class_enrollment_summary_by_term_2.25.20_0.xlsx", destfile = "current.xlsx" )
+
+enrollment_spring2019 <- download.file("https://registrar.fas.harvard.edu/files/fas-registrar/files/class_enrollment_summary_by_term_3.22.19_0.xlsx", destfile = "old.xlsx" )
+
+spring2019 <- read_xlsx("enrollment_spring2019")
+spring2020 <- read_xlsx("enrollment_spring2020")
+
+
+```
