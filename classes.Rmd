@@ -6,10 +6,11 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(readxl)
 library(janitor)
 library(tidyverse)
+library(gt)
 ```
 
 ```{r}
@@ -31,8 +32,13 @@ joined <- anti_join(spring2020, spring2019, by = "course_id")
 
 #joined
 
-joined %>%
+joined_5 <- joined %>%
   arrange(desc(total)) %>%
   head(5) %>%
   select(course_name, total)
+
+gt(joined_5, rowname_col = "Class") %>%
+  cols_label(course_name = "Class", total = "Enrollment") %>%
+  tab_header(title = "New Classes with Highest Enrollment",
+             subtitle = "Between Spring 2020 and 2019")
 ```
