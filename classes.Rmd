@@ -8,19 +8,31 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
+library(janitor)
+library(tidyverse)
 ```
 
 ```{r}
 
 #download files from online
-?download.file
+#?download.file
 
-enrollment_spring2020 <- download.file("https://registrar.fas.harvard.edu/files/fas-registrar/files/class_enrollment_summary_by_term_2.25.20_0.xlsx", destfile = "current.xlsx" )
+spring2020 <- read_excel("class_enrollment_summary_by_term_2.25.20_0.xlsx", skip = 3) %>%
+  clean_names() 
 
-enrollment_spring2019 <- download.file("https://registrar.fas.harvard.edu/files/fas-registrar/files/class_enrollment_summary_by_term_3.22.19_0.xlsx", destfile = "old.xlsx" )
+spring2019 <- read_excel("class_enrollment_summary_by_term_3.22.19_0.xlsx", skip = 3) %>%
+  clean_names()
 
-spring2019 <- read_xlsx("enrollment_spring2019")
-spring2020 <- read_xlsx("enrollment_spring2020")
+#View(spring2019)
 
+#View(spring2020)
 
+joined <- anti_join(spring2020, spring2019, by = "course_id")
+
+#joined
+
+joined %>%
+  arrange(desc(total)) %>%
+  head(5) %>%
+  select(course_name, total)
 ```
